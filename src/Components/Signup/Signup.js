@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './Signup.css'
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../Contexts/UserContext';
 
 const Signup = () => {
 const [error,setError]=useState(null)
+const {createUser} =useContext(AuthContext)
 
 
 const handleSubmit = (event)=>{
@@ -23,6 +25,16 @@ const handleSubmit = (event)=>{
  setError('Your Password Did not match');
  return
  }
+
+createUser(email,password)
+.then(result=>{
+  const user = result.user
+  console.log(user);
+  form.reset();
+})
+.catch(error=>console.error(error));
+
+
 
 }
 
@@ -46,9 +58,9 @@ const handleSubmit = (event)=>{
                  <label htmlFor="confirm">Confirm Password</label>
                  <input type="password" name='confirm' required/>
                </div>
-               <input className='btn-submit' type="submit" name="" id="" value='Login' />
+               <input className='btn-submit' type="submit" name="" id="" value='Sign up' />
             </form>
-            <p>Already have an account? <Link to='/login'>Login now</Link></p>
+            <p>Already have an account? <Link to='/login'>Login Now</Link></p>
             <p className='text-error'>{error}</p>
         </div>       
     );
